@@ -1,14 +1,9 @@
-from dataclasses import dataclass
 from typing import ClassVar
-from label import Label
+import product_label
 
 
-@dataclass
 class Product:
-    products: ClassVar[list["Product"]] = [
-        Label("Pomme", 3, 1, True),
-        Label("Orange", 5, 1, True),
-    ]
+    products: ClassVar[list["Product"]] = []
 
     @classmethod
     def get_price(cls, _product:int) -> int:
@@ -19,3 +14,9 @@ class Product:
         self.stock:int = _stock
         self.price:int = _price
         self.is_unit:bool = _is_unit
+        Product.products.append(self)
+
+
+new_prod = Product("Pomme", 3, 1, True)
+print(new_prod.name)
+print(Product.products[0])
