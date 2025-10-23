@@ -33,14 +33,14 @@ class Shop:
     def get_price(cls, _index:int, _amount) -> float:
         """ Method used to get the price of a Product instance by its amount.
 
-        :param _index: Get the specific index of a product from the products list. [!] TODO
+        :param _index: Get the specific index of a product from the products list.
         :param _amount: Amount of a specific product wanted.
         :return: Return the calculated price of the product from its price and amount.
         """
         price = cls.products[_index].price
         price *= _amount
 
-        if cls.products[_index].is_unit is False:
+        if not cls.products[_index].is_unit:
             price /= 1000
 
         return price
@@ -65,7 +65,7 @@ class Shop:
 
 
     @classmethod
-    def display_products(cls):
+    def display_products(cls): # TODO
         print("Articles en vente : ")
 
         _tiny_width, _width = 3, 13
