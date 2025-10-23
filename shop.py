@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from typing import ClassVar
+from typing import ClassVar, Optional
 from product import Product
-from client import Client
 
 
 class Shop:
@@ -57,7 +56,7 @@ class Shop:
 
 
     @classmethod
-    def remove_product(cls, _index:int, _amount:int, _client:Client):
+    def remove_product(cls, _index:int, _amount:int, _client: 'Client'):  # type: ignore
         """ Permet d'enlever un produit une fois acheté. """
         cls.products[_index].stock -= _amount
         cls.set_earnings(cls.products[_index], _amount, _client)
@@ -75,7 +74,7 @@ class Shop:
 
 
     @classmethod
-    def get_product(cls, _product_name:str) -> Product|None:
+    def get_product(cls, _product_name:str) -> Optional[Product]:
         """ Retourne un produit à partir de son nom. """
         product_dict = {cls.products[x].name.lower():cls.products[x] for x in range(len(cls.products))}
 
@@ -83,7 +82,7 @@ class Shop:
 
 
     @classmethod
-    def set_earnings(cls, _product:Product, _amount:int, _client:Client):
+    def set_earnings(cls, _product:Product, _amount:int, _client: 'Client'):  # type: ignore
         cls.money += _product.price * _amount  # type: ignore
         cls.clients.append(_client)
 

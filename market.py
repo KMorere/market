@@ -7,6 +7,7 @@ products = Shop.products
 new_shop = Shop()
 reader = ""
 
+
 while True:
     new_client = Client(input("Entrez votre prénom : "), input("Entrez votre nom : "))
 

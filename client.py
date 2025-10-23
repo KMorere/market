@@ -67,7 +67,6 @@ class Client:
                 _shop.remove_product(_shop.products.index(_product), _quantity, self)  # type: ignore 
                 self.total_spent += _shop.get_price(_shop.products.index(_product), _quantity)
                 self.buy_list.append((_product.name, _quantity, _product.price))
-
                 print(f"Achat de {_quantity} {_product.name} confirmé.")
             else:
                 print(f"Le produit {_product.name} n'a pas un stock suffisant pour cet achat. (dispo : {_product.stock})\n")
