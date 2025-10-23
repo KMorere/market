@@ -57,6 +57,15 @@ class Shop:
 
 
     @classmethod
+    def is_available(cls, _name: str, _quantity: float) -> bool:
+        """ Checks if product is in stock in `_shop`, Returns True if available, False otherwise """
+        _product = cls.get_product(_name.lower())
+        if _product is not None:
+            return _quantity <= _product.stock
+        return False
+
+
+    @classmethod
     def get_product(cls, _product_name:str) -> Product|None:
         """ Retourne un produit à partir de son nom. """
         product_dict = {cls.products[x].name.lower():cls.products[x] for x in range(len(cls.products))}
@@ -78,10 +87,9 @@ class Shop:
 
         for product in cls.products:
             _name, _quantity, _price = product.name, product.stock, product.price
-            _total_line_price = round(_price * _quantity, 2)
 
             _quantity_display = '' + str(_quantity).center(1) + ' /'
-            _price_display = ' ' + ''.join([str(_total_line_price) + ' €']).center(0) + ' /'
+            _price_display = ' ' + ''.join([str(_price) + ' €']).center(0) + ' /'
 
             price_type_str = "pc" if product.is_unit else "kg"
 

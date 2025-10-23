@@ -55,24 +55,18 @@ class Client:
         print('| ' + 'Total: '.center(_width) + ''.join([_total_price.__str__() + '€']).center(_width) + ' |')
         print(_line)
 
-    @staticmethod
-    def is_available(_shop: Shop, _name: str, _quantity: float) -> bool:
-        """ Checks if product is in stock in `_shop`, Returns True if available, False otherwise """
-        _product = _shop.get_product(_name)
-        if _product is not None:
-            return _quantity <= _product.stock
-        return False
-
     def buy(self, _shop: Shop, _name: str, _quantity: float):
         """
         Checks if `is_available`, if True gets price from shop, remove it from stock and adds it to client history,
         Prints an error message otherwise.
         """
-        _product = _shop.get_product(_name)
+        _product = _shop.get_product(_name.lower())
         if _product is not None:
-            if self.is_available(_shop, _product.name, _quantity):
+            if _shop.is_available(_product.name, _quantity):
                 _shop.remove_product(_shop.products.index(_product), _quantity)
                 self.total_spent += _shop.get_price(_shop.products.index(_product), _quantity)
                 self.buy_list.append((_product.name, _quantity, _product.price))
+
+                print(f"Achat de {_quantity} {_product.name} confirmé.")
             else:
                 print(f"Le produit {_product.name} n'a pas un stock suffisant pour cet achat. (dispo : {_product.stock})\n")

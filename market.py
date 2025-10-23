@@ -11,8 +11,6 @@ while reader.lower() != "stop":
 
     if new_shop.get_product(reader):
         reader_amount = input("Quantité à acheter : ")
-        new_client.buy(new_shop, new_shop.get_product(reader), int(reader_amount))  # type: ignore
-
-        print(f"Achat de {reader_amount} {reader}")
+        new_client.buy(new_shop, new_shop.get_product(reader).name, int(reader_amount))  # type: ignore
 
 new_client.print_buy_list()
