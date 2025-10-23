@@ -27,6 +27,7 @@ class Shop:
         Product("Radis Noir", 10, 5, True),
         Product("Salsifis", 3, 2.5, False)
     ]
+    products_dict: list[dict] = [{}]
 
     @classmethod
     def get_price(cls, _index:int, _amount) -> float:
@@ -46,5 +47,25 @@ class Shop:
 
     def __init__(self, _product:Product):
         self.product = _product
+        Shop.products_dict = [{Shop.products[x].name:Shop.products[x].price,
+                          Shop.products[x].stock:Shop.products[x].is_unit}
+                          for x in range(len(Shop.products))]
 
         #Product.products.append([_name, _stock, _price, _is_unit])
+
+    @classmethod
+    def remove_product(cls, _index:int, _amount):
+        """ Permet d'enlever un produit une fois acheté. """
+        cls.products[_index].stock -= _amount
+
+
+    @classmethod
+    def get_product(cls):
+        """ Retourne un dictionnaire contenant tous les produits avec leur nom en clé. """
+        # cls.products_dict = [{"name":Shop.products[x].name} for x in range(len(Shop.products))]
+        cls.products_dict = [{Shop.products[x].name:Shop.products[x].price,
+                          Shop.products[x].stock:Shop.products[x].is_unit}
+                          for x in range(len(Shop.products))]
+
+        return {cls.products[x].name:cls.products_dict[x] for x in range(len(cls.products))}
+        #return {product_name:product for product in cls.products_dict for product_name in product}
