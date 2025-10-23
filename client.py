@@ -9,7 +9,7 @@ class Client:
     stores buying history in `buy_list` and compute `total_spent`
 
     Methods:
-        can_buy(product, quantity): Returns true if desired quantity is available, False otherwise
+        is_available(product, quantity): Returns true if desired quantity is available, False otherwise
         buy(product, quantity): check if product is available, then buy it and add it to history
     """
     first_name: str
@@ -57,16 +57,15 @@ class Client:
 
     @staticmethod
     def is_available(_shop: type[Shop], _name: str, _quantity: float) -> bool:
-        """ Checks if `_product` is_unit and returns True if `_product` is available, False otherwise """
-        _product = _shop.get_product(_name)
-        return _quantity <= _product.stock if _product.is_unit else _quantity / 1000 <= _product.stock
+        """ Checks if product is in stock in `_shop`, Returns True if available, False otherwise """
+        return _quantity <= _shop.get_product(_name).stock
 
-    def buy(self, _shop: type[Shop], _product: Product, _quantity: float):
+    def buy(self, _shop: type[Shop], _name: str, _quantity: float):
         """
-        Checks if `is_available`, if True compute price, remove it from stock and adds it to history,
+        Checks if `is_available`, if True gets price from shop, remove it from stock and adds it to client history,
         Prints an error message otherwise.
         """
-        _product = _shop.get_product(_product.name)
+        _product = _shop.get_product(_name)
         if self.is_available(_shop, _product.name, _quantity):
             _shop.remove_product(_shop.products.index(_product), _quantity)
             self.total_spent += _shop.get_price(_shop.products.index(_product), _quantity)
@@ -79,6 +78,6 @@ client = Client("Albert", "Roquefort")
 
 shop = Shop
 clementine = shop.get_product("Clémentine")
-client.buy(shop, clementine, 1)
+client.buy(shop, clementine.name, 1)
 
 client.print_buy_list()
