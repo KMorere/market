@@ -17,7 +17,7 @@ class Shop:
         Product("Pomme", 8, 1.5, False),
 
         Product("Carotte", 7, 1.3, False),
-        Product("Choux de Bruxelles", 4, 4, False),
+        Product("Choux de Bx", 4, 4, False),
         Product("Chou vert", 12, 2.5, True),
         Product("Courge", 6, 2.5, True),
         Product("Endive", 5, 2.5, False),
@@ -46,8 +46,8 @@ class Shop:
         return price
 
 
-    def __init__(self, _product:Product):
-        self.product = _product
+    def __init__(self):
+        self.display_products()
 
 
     @classmethod
@@ -57,8 +57,37 @@ class Shop:
 
 
     @classmethod
-    def get_product(cls, _product_name:str):
+    def get_product(cls, _product_name:str) -> Product|None:
         """ Retourne un produit à partir de son nom. """
-        product_dict = {cls.products[x].name:cls.products[x] for x in range(len(cls.products))}
+        product_dict = {cls.products[x].name.lower():cls.products[x] for x in range(len(cls.products))}
 
         return product_dict.get(_product_name)
+
+
+    @classmethod
+    def display_products(cls):
+        print("Articles en vente : ")
+
+        _tiny_width, _width = 3, 13
+        _line = ''.join(['+' + '-' * (_width + 3)]) + ''.join(['+' + '-' * (_tiny_width + 5)]) \
+                + ''.join(['+' + '-' * (_width + 1)]) + '+'
+
+        print(_line)
+        print(f"| Article        | Stock  | Prix         |")
+        print(_line)
+
+        for product in cls.products:
+            _name, _quantity, _price = product.name, product.stock, product.price
+            _total_line_price = round(_price * _quantity, 2)
+
+            _quantity_display = '' + str(_quantity).center(1) + ' /'
+            _price_display = ' ' + ''.join([str(_total_line_price) + ' €']).center(0) + ' /'
+
+            price_type_str = "pc" if product.is_unit else "kg"
+
+            line_display = (f"|{_name.center(_width)}   |"
+                            f" {_quantity_display} {price_type_str} |"
+                            f" {_price_display} {price_type_str} |")
+            print(line_display)
+
+        print(_line)
