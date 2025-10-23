@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from typing import ClassVar
 from product import Product
+from client import Client
 
 
 class Shop:
@@ -29,6 +30,9 @@ class Shop:
         Product("Radis Noir", 10, 5, True),
         Product("Salsifis", 3, 2.5, False)
     ]
+    clients: list = []
+
+    money: int = 0
 
 
     @classmethod
@@ -53,9 +57,12 @@ class Shop:
 
 
     @classmethod
-    def remove_product(cls, _index:int, _amount):
+    def remove_product(cls, _index:int, _amount:int, _client:Client):
         """ Permet d'enlever un produit une fois acheté. """
         cls.products[_index].stock -= _amount
+        cls.set_earnings(cls.products[_index], _amount, _client)
+
+        cls.display_products()
 
 
     @classmethod
@@ -73,6 +80,14 @@ class Shop:
         product_dict = {cls.products[x].name.lower():cls.products[x] for x in range(len(cls.products))}
 
         return product_dict.get(_product_name)
+
+
+    @classmethod
+    def set_earnings(cls, _product:Product, _amount:int, _client:Client):
+        cls.money += _product.price * _amount  # type: ignore
+        cls.clients.append(_client)
+
+        cls.display_products()
 
 
     @classmethod
