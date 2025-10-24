@@ -64,7 +64,7 @@ class Client:
         _product = _shop.get_product(_name.lower())
         if _product is not None:
             if _shop.is_available(_product.name, _quantity):
-                _shop.remove_product(_shop.products.index(_product), _quantity, self)  # type: ignore 
+                _shop.remove_product(_shop.products.index(_product), _quantity, self)  # type: ignore
                 self.total_spent += _shop.get_price(_shop.products.index(_product), _quantity)
                 self.buy_list.append((_product.name, _quantity, _product.price))
                 print(f"Achat de {_quantity} {_product.name} confirmé.")

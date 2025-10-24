@@ -5,10 +5,11 @@ from client import Client
 
 products = Shop.products
 new_shop = Shop()
-reader = ""
+clients: list[Client] = []
 
 
-while True:
+def new_client_buy_session():
+    reader = ""
     new_client = Client(input("Entrez votre prénom : "), input("Entrez votre nom : "))
 
     while reader.lower() != "stop":
@@ -19,4 +20,15 @@ while True:
             reader_amount = input("Quantité à acheter : ")
             new_client.buy(new_shop, new_shop.get_product(reader).name, int(reader_amount))  # type: ignore
 
-    new_client.print_buy_list()
+    clients.append(new_client)
+
+
+while True:
+    new_client_buy_session()
+
+    input_str = input("Voulez vous ajouter un nouveau client ? (o/n)")
+    if input_str == "o":
+        new_client_buy_session()
+    else:
+        for client in clients:
+            client.print_buy_list()
