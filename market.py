@@ -5,7 +5,7 @@ from client import Client
 
 products = Shop.products
 new_shop = Shop()
-clients: list[Client] = []
+clients: list[Client] = new_shop.clients
 
 
 def new_client_buy_session():
@@ -18,9 +18,13 @@ def new_client_buy_session():
 
         if new_shop.get_product(reader):
             reader_amount = input("Quantité à acheter : ")
-            new_client.buy(new_shop, new_shop.get_product(reader).name, int(reader_amount))  # type: ignore
 
-    clients.append(new_client)
+            if reader_amount.isdigit():
+                new_client.buy(new_shop, new_shop.get_product(reader).name, int(reader_amount))  # type: ignore
+            else:
+                print(f"Erreur, '{reader_amount}' n'est pas une entrée valide.")
+
+    #clients.append(new_client)
 
     input_str = input("Voulez vous ajouter un nouveau client ? (Oui/Non)")
     if input_str == "Oui" or input_str == "oui":
