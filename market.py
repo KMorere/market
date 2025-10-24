@@ -22,13 +22,15 @@ def new_client_buy_session():
 
     clients.append(new_client)
 
-
-while True:
-    new_client_buy_session()
-
-    input_str = input("Voulez vous ajouter un nouveau client ? (o/n)")
-    if input_str == "o":
+    input_str = input("Voulez vous ajouter un nouveau client ? (Oui/Non)")
+    if input_str == "Oui" or input_str == "oui":
         new_client_buy_session()
     else:
         for client in clients:
             client.print_buy_list()
+
+
+
+while True:
+    new_client_buy_session()
+    print(f"Recette de la journée: {new_shop.money}€ | Nombre de clients: {len(new_shop.clients)}")
